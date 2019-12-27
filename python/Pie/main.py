@@ -12,6 +12,7 @@ yellow = 255, 255, 0
 pygame.init()
 
 screen = pygame.display.set_mode((1024, 600))  # 设置窗口
+pygame.display.set_caption("Pie")  # 设置标题
 myfont = pygame.font.Font(None, 80)  # 设置字体
 textImage = myfont.render("Welcome to Pie", True, white)  # 渲染文本 true为抗锯齿
 while True:
