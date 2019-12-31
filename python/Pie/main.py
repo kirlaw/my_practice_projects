@@ -18,10 +18,13 @@ myfont = pygame.font.Font(None, 80)  # 设置字体
 textImage = myfont.render("Welcome to Pie", True, white)  # 渲染文本 true为抗锯齿
 buttonimage = pygame.image.load("开始.png")
 while True:
-    # 点击窗口右上角X退出
+    # 点击窗口右上角X/按Esc键退出
     for event in pygame.event.get():
         if event.type == QUIT:
             sys.exit()
+        elif event.type == KEYUP:
+            if event.key == pygame.K_ESCAPE:
+                sys.exit()
 
     screen.fill(black)  # 清除屏幕
     screen.blit(textImage, (300, 150))  # 绘制
