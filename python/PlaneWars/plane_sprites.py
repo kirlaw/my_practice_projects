@@ -4,7 +4,7 @@ import pygame
 import random
 
 # 窗口
-SCREEN_RECT = pygame.Rect(0,0,500,700)
+SCREEN_RECT = pygame.Rect(0,0,480,700)
 # 屏幕刷新率
 FRAME_PER_SEC = 15
 # 敌机定时器
@@ -56,43 +56,58 @@ class Enemy(GameSprite):
 
     def update(self):
         super().update()
-
         # 如果飞出屏幕，删除敌机
         if self.rect.y>=SCREEN_RECT.height:
             self.kill()
 
 # 英雄精灵
-class Hero(GameSprite):
+class Hero(pygame.sprite.Sprite):
     def __init__(self):
-        super().__init__('./images/me1.png',0)
+        super().__init__()
+        self.image = pygame.image.load('./images/me1.png')
+        self.rect = self.image.get_rect()
         self.rect.centerx = SCREEN_RECT.centerx
         self.rect.bottom = SCREEN_RECT.bottom-120
         # 创建子弹
         self.bullets  = pygame.sprite.Group()
+        self.speed = 6
 
-    def update(self):
-        # 水平移动
-        self.rect.x +=self.speed
+    # 上移
+    def move_up(self):
+        self.rect.y -= self.speed
+        if self.rect.top < 0:
+            self.rect.top = 0
 
-        # 不能超出边界
+    # 下移
+    def move_down(self):
+        self.rect.y += self.speed
+        if self.rect.bottom > SCREEN_RECT.height:
+            self.rect.bottom = 0
+
+    # 左移
+    def move_left(self):
+        self.rect.x -= self.speed
         if self.rect.left < 0:
             self.rect.left = 0
-        if self.rect.right > SCREEN_RECT.right:
-            self.rect.right = SCREEN_RECT.right
+
+    # 右移
+    def move_right(self):
+        self.rect.x += self.speed
+        if self.rect.right > SCREEN_RECT.width:
+            self.rect.right = 0
 
     # 发射子弹
     def fire(self):
         # 生成子弹
-        for i in range(3):
-            bullet = Bullet()
-            bullet.rect.bottom = self.rect.y-i*20
-            bullet.rect.centerx = self.rect.centerx
-            self.bullets.add(bullet)
+        bullet = Bullet()
+        bullet.rect.bottom = self.rect.y-20
+        bullet.rect.centerx = self.rect.centerx
+        self.bullets.add(bullet)
 
 # 子弹精灵
 class Bullet(GameSprite):
     def __init__(self):
-        super().__init__('./images/bullet1.png',-2)
+        super().__init__('./images/bullet1.png',-5)
 
     def update(self):
         super().update()
