@@ -5,7 +5,7 @@ from socket import *
 import time
 import struct
 
-HOST = '192.168.239.128'
+HOST = 'ip'
 PORT = 7788
 ADDR = (HOST, PORT)
 BUFSIZ = 1024

@@ -6,7 +6,7 @@ import select
 import sys
 from time import ctime
 
-HOST = '39.102.73.213'
+HOST = 'ip'
 PORT = 7788
 ADDR = (HOST, PORT)
 BUFSIZ = 1024

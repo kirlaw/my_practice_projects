@@ -4,7 +4,7 @@
 from socket import *
 import sys
 
-HOST = '192.168.239.128'
+HOST = 'ip'
 BUFSIZ = 1024
 
 
