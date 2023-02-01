@@ -104,12 +104,12 @@ class SnakeGameClass:
             minDist = cv2.pointPolygonTest(pts, (cx, cy), True)
             # print(minDist)
 
-            if minDist == 0:
+            if -0.05 <= minDist <= 0.05:
                 # print("Hit")
                 self.gameOver = True
                 self.points = []  # 蛇身上所有的点
                 self.lengths = []  # 每个点之间的长度
-                self.currentLength = 0  # 蛇的总长
+                self.currentLength = 0  # 蛇的总
                 self.allowedLength = 150  # 蛇允许的总长度
                 self.previousHead = 0, 0  # 第二个头结点
                 self.randomFoodLocation()
@@ -141,7 +141,7 @@ while True:  # 不断迭代更新
     if key == 27:  # 按下 Esc退出 (27是按键ESC对应的ASCII值)
         break
 
-    if (cv2.getWindowProperty("Image", 0) == -1):  # 判断是否点击窗口关闭按键
+    if (cv2.getWindowProperty("Image", cv2.WND_PROP_VISIBLE) == -1):  # 判断是否点击窗口关闭按键
         break
 
 cap.release()
