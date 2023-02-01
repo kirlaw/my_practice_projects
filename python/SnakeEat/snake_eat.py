@@ -98,12 +98,13 @@ class SnakeGameClass:
             # Check for Collision
             pts = np.array(self.points[:-2], np.int32)
             pts = pts.reshape((-1, 1, 2))  # 重塑为一个行数未知但只有一列且每个元素有2个子元素的矩阵
-            cv2.polylines(imgMain, [pts], False, (0, 200, 0), 3)
             # 第三个参数是False，我们得到的是不闭合的线
-            minDist = cv2.pointPolygonTest(pts, (cx, cy), True)
+            cv2.polylines(imgMain, [pts], False, (0, 200, 0), 3)
             # 参数True表示输出该像素点到轮廓最近距离
+            minDist = cv2.pointPolygonTest(pts, (cx, cy), True)
+            # print(minDist)
 
-            if -1 <= minDist <= 1:
+            if minDist == 0:
                 # print("Hit")
                 self.gameOver = True
                 self.points = []  # 蛇身上所有的点
@@ -135,6 +136,7 @@ while True:  # 不断迭代更新
 
     if key == ord('r'):  # 重置游戏
         game.gameOver = False
+        game.score = 0
 
     if key == 27:  # 按下 Esc退出 (27是按键ESC对应的ASCII值)
         break
