@@ -22,6 +22,7 @@ cap = cv2.VideoCapture(0)  # 0代表自己电脑的摄像头
 cap.set(3, 1280)  # 宽
 cap.set(4, 720)  # 高
 
+# 手部检测方法，置信度为0.8，最多检测一只手
 detector = HandDetector(detectionCon=0.8, maxHands=1)
 
 
@@ -141,7 +142,7 @@ while True:  # 不断迭代更新
     if key == 27:  # 按下 Esc退出 (27是按键ESC对应的ASCII值)
         break
 
-    if (cv2.getWindowProperty("Image", cv2.WND_PROP_VISIBLE) == -1):  # 判断是否点击窗口关闭按键
+    if cv2.getWindowProperty("Image", cv2.WND_PROP_AUTOSIZE) < 1:  # 判断是否点击窗口关闭按键
         break
 
 cap.release()
