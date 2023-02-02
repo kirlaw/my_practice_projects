@@ -2,4 +2,7 @@
 
 
 打包
-pyinstaller -F -w main.py -p PoseModule.py --add-data="E:\ComputerVersion\venv\Lib\site-packages\mediapipe\modules;mediapipe/modules"
+pyinstaller -F -w snake_eat.py -p memory_pic.py --add-data="E:\ComputerVersion\venv\Lib\site-packages\mediapipe\modules;mediapipe/modules"
+
+
+![image](https://user-images.githubusercontent.com/35916301/216256232-a2a24988-f1b4-4afd-8829-e7445544fedc.png)
