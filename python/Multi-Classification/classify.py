@@ -34,7 +34,7 @@ def predict_model():
 
     # pre_classes = []
     normalize = T.Normalize(mean=0, std=1)
-    name = ["Aprion_virescens", "clownfish", "crab", "goggles", "sea_horse", "turtle", 'null']
+    name = ['']
     # 生成预测结果
     for path in test_path:
         image_path = path
