@@ -1,3 +1,8 @@
+### 贪吃蛇
+
+手指控制移动，蛇身可以加长，触碰到自己则游戏结束
+
+
 使用base64格式把图片保存在py文件再读出，方便程序打包
 
 
@@ -12,4 +17,4 @@ pyinstaller -F -w snake_eat.py -p memory_pic.py --add-data="E:\ComputerVersion\v
 
 snake_eat_pygame.py
 
-随机生成食物，手指控制移动
+蛇身不能加长，随机生成10个食物，手指控制移动
