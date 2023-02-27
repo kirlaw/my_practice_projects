@@ -10,25 +10,18 @@ mp_drawing = mp.solutions.drawing_utils
 # Define the maximum number of hands to be detected
 max_hands = 1
 
-# Initialize the Mediapipe hand detection module
-mp_hands = mp.solutions.hands.Hands(max_num_hands=max_hands, min_detection_confidence=0.5, min_tracking_confidence=0.5)
-
-
 # Start the camera
 cap = cv2.VideoCapture(0)
+
+# Initialize the Mediapipe hand detection module
+mp_hands = mp.solutions.hands.Hands(max_num_hands=max_hands, min_detection_confidence=0.5, min_tracking_confidence=0.5)
 
 # set up Pygame window
 pygame.init()
 screen = pygame.display.set_mode((640, 480))
-pygame.display.set_caption("Gluttony Game")
+pygame.display.set_caption("Eat Game")
 
 game_over = False
-
-
-def game_restart():
-    global game_over
-    game_over = False
-    game_start()
 
 
 def game_start():
@@ -55,6 +48,7 @@ def game_start():
         # Process the image with Mediapipe
         results = mp_hands.process(image)
         landmarks = []
+        thumb_x, thumb_y, index_x, index_y = 0, 0, 0, 0
         # Extract the hand landmarks if available
         if results.multi_hand_landmarks:
             landmarks = results.multi_hand_landmarks[0]
@@ -67,16 +61,15 @@ def game_start():
                 landmarks.landmark[mp.solutions.hands.HandLandmark.INDEX_FINGER_TIP].x * image.shape[1]), int(
                 landmarks.landmark[mp.solutions.hands.HandLandmark.INDEX_FINGER_TIP].y * image.shape[0])
 
-
         # Display the image with the hand landmarks
         mp_drawing.draw_landmarks(image, landmarks, mp.solutions.hands.HAND_CONNECTIONS)
         cv2.imshow("Camera", image)
 
         # detect hand gesture
-        x, y, w, h = thumb_x, thumb_y, index_x, index_y
+        x, y, x1, y1 = thumb_x, thumb_y, index_x, index_y
 
         # draw hand bounding box on frame
-        cv2.rectangle(image, (x, y), (w, h), (0, 255, 0), 2)
+        cv2.rectangle(image, (x, y), (x1, y1), (0, 255, 0), 2)
 
         # update player position based on hand position
         player.x = x
@@ -87,6 +80,11 @@ def game_start():
         pygame.draw.rect(screen, (255, 0, 0), player)
         for food in foods:
             pygame.draw.rect(screen, (0, 255, 0), food)
+
+        if not foods:
+            game_over = True
+            text_end = font.render(f"Game Over", True, (0, 0, 0))
+            screen.blit(text_end, (200, 200))
 
         # check for collision between player and food
         for food in foods:
@@ -101,41 +99,24 @@ def game_start():
         # update Pygame window
         pygame.display.update()
 
-        if not foods:
-            game_over = True
-            text_end = font.render(f"Game Over", True, (0, 0, 0))
-            screen.blit(text_end, (100, 200))
-
-        # quit game if user presses 'q' key or 'Esc'
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    cap.release()
-                    cv2.destroyAllWindows()
-                    quit()
-            elif event.type == pygame.QUIT:
+    # quit game if user presses 'q' key or 'Esc'
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
                 pygame.quit()
                 cap.release()
                 cv2.destroyAllWindows()
                 quit()
+            if event.key == pygame.K_r:
+                game_over = False
+        elif event.type == pygame.QUIT:
+            pygame.quit()
+            cap.release()
+            cv2.destroyAllWindows()
+            quit()
 
 
 if __name__ == "__main__":
-    game_start()
     # press 'r' to restart game
     while True:
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_r:
-                    game_restart()
-                elif event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    cap.release()
-                    cv2.destroyAllWindows()
-                    quit()
-            elif event.type == pygame.QUIT:
-                pygame.quit()
-                cap.release()
-                cv2.destroyAllWindows()
-                quit()
+        game_start()
