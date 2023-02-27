@@ -33,8 +33,26 @@ def game_start():
     score = 0
     font = pygame.font.SysFont('Arial', 25)
 
+    landmarks = []
+    thumb_x, thumb_y, index_x, index_y = 0, 0, 0, 0
     global game_over
     while not game_over:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    cap.release()
+                    cv2.destroyAllWindows()
+                    quit()
+                # press 'r' to restart game
+                if event.key == pygame.K_r:
+                    game_over = False
+            elif event.type == pygame.QUIT:
+                pygame.quit()
+                cap.release()
+                cv2.destroyAllWindows()
+                quit()
+
         # Read the camera image
         success, image = cap.read()
         if not success:
@@ -47,8 +65,7 @@ def game_start():
 
         # Process the image with Mediapipe
         results = mp_hands.process(image)
-        landmarks = []
-        thumb_x, thumb_y, index_x, index_y = 0, 0, 0, 0
+
         # Extract the hand landmarks if available
         if results.multi_hand_landmarks:
             landmarks = results.multi_hand_landmarks[0]
