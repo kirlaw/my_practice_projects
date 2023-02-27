@@ -107,6 +107,7 @@ def game_start():
                 cap.release()
                 cv2.destroyAllWindows()
                 quit()
+            # press 'r' to restart game
             if event.key == pygame.K_r:
                 game_over = False
         elif event.type == pygame.QUIT:
@@ -117,6 +118,5 @@ def game_start():
 
 
 if __name__ == "__main__":
-    # press 'r' to restart game
     while True:
         game_start()
