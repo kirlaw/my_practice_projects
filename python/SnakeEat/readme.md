@@ -6,3 +6,10 @@ pyinstaller -F -w snake_eat.py -p memory_pic.py --add-data="E:\ComputerVersion\v
 
 
 ![image](https://user-images.githubusercontent.com/35916301/216256232-a2a24988-f1b4-4afd-8829-e7445544fedc.png)
+
+
+### 用pygame实现
+
+snake_eat_pygame.py
+
+随机生成食物，手指控制移动
