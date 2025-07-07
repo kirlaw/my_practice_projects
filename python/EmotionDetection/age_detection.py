@@ -4,10 +4,10 @@ from tkinter import Tk, Button, Label, filedialog, messagebox
 from PIL import Image, ImageTk
 import os
 
-class EmotionApp:
+class AgeApp:
     def __init__(self, master):
         self.master = master
-        self.master.title("人脸情绪识别")
+        self.master.title("人脸年龄识别")
         self.image_label = Label(master)
         self.image_label.pack(pady=10)
 
@@ -27,24 +27,23 @@ class EmotionApp:
         img = cv2.imread(path)
 
         try:
-            results = DeepFace.analyze(img, actions=['emotion'], enforce_detection=False)
+            results = DeepFace.analyze(img, actions=['age'], enforce_detection=False)
 
             if not isinstance(results, list):
                 results = [results]
 
             for result in results:
-                emotion_dict = result['emotion']
-                dominant_emotion = result['dominant_emotion']
+                age = result['age']
                 region = result['region']  # {'x': int, 'y': int, 'w': int, 'h': int}
 
                 # 绘制人脸框
                 x, y, w, h = region['x'], region['y'], region['w'], region['h']
-                cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
 
-                # 构造显示文本：主导情绪 + 概率
-                text = f"{dominant_emotion} ({emotion_dict[dominant_emotion]:.2f})"
+                # 构造显示文本：年龄信息
+                text = f"Age: {int(age)}"
                 cv2.putText(img, text, (x, y - 10),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
 
             # 保存图像
             self.processed_img = img
@@ -76,5 +75,5 @@ class EmotionApp:
 
 if __name__ == "__main__":
     root = Tk()
-    app = EmotionApp(root)
+    app = AgeApp(root)
     root.mainloop()
